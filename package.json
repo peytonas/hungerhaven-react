@@ -12,12 +12,20 @@
   "author": "Boise Codeworks",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^3.2.0",
+    "connect-mongodb-session": "^2.3.3",
     "cors": "^2.8.1",
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
+    "dotenv-extended": "^2.8.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "helmet": "^3.21.2",
-    "mongoose": "^5.8.0"
+    "mongoose": "^5.8.0",
+    "register-service-worker": "^1.7.1",
+    "sweetalert2": "^9.15.3"
   },
   "engines": {
     "node": "^12.0.0",
