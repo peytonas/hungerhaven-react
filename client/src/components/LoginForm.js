@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form'
 // import axios from 'axios'
 import AuthService from '../AuthService';
 
@@ -10,57 +11,54 @@ import AuthService from '../AuthService';
 //   withCredentials: true
 // })
 
-class LoginForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      user: {}
-    }
 
-    this.handleChange = this.handleChange.bind(this);
-    this.login = this.login.bind(this);
-  }
+function LoginForm() {
+  const { handleSubmit, register, errors } = useForm();
+  const onSubmit = values => console.log(values);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState({})
 
-  login(event) {
-    try {
-      let user = AuthService.Login(event)
-      this.setState({ user: user })
-    } catch (error) {
-      console.error(error)
-    }
-    event.preventDefault();
-  }
+  // login(event) {
+  //   try {
+  //     let user = AuthService.Login(event)
+  //     this.setState({ user: user })
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  //   event.preventDefault();
+  // }
 
-  handleChange(event) {
-    this.setState({ email: event.target.value });
-    this.setState({ password: event.target.value });
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.login} className="col-6 col-md-3">
-        <input
-          className="form-control mb-2"
-          type="text"
-          name="email"
-          id="email"
-          placeholder="email"
-          defaultValue={this.state.email}
-        />
-        <input
-          className="form-control mb-2"
-          type="text"
-          name="password"
-          id="password"
-          placeholder="password"
-          defaultValue={this.state.password}
-        />
-        <button type="submit" value="Submit" className="btn btn-primary" ><p className="mt-n1 mb-n1">submit</p></button>
-      </form>
-    )
-  }
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="col-6 col-md-3">
+      <input
+        className="form-control mb-2"
+        name="email"
+        ref={register({
+          required: "Required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "invalid email address"
+          }
+        })}
+        placeholder="email"
+        defaultValue={email}
+      />
+      {errors.email && errors.email.message}
+      <input
+        className="form-control mb-2"
+        name="password"
+        type="password"
+        ref={register({
+          validate: value => value !== "admin" || "Nice try!"
+        })}
+        placeholder="password"
+        defaultValue={password}
+      />
+      {errors.password && errors.username.password}
+      <button type="submit" className="btn btn-primary" ><p className="mt-n1 mb-n1">submit</p></button>
+    </form>
+  )
 }
 
 export default LoginForm
